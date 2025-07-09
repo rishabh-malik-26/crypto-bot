@@ -1,0 +1,32 @@
+2025-07-09 21:21:32,279 - INFO - Connection Successful
+2025-07-09 21:21:36,918 - INFO - Symbol Added: ELF
+2025-07-09 21:21:39,140 - INFO - Side Added: BUT
+2025-07-09 21:21:42,339 - INFO - Order type Selected: DDD
+2025-07-09 21:21:43,721 - ERROR - Error Occurred: could not convert string to float: 'dee'
+2025-07-09 21:22:16,770 - INFO - Connection Successful
+2025-07-09 21:22:19,339 - INFO - Symbol Added: RTE
+2025-07-09 21:22:22,233 - INFO - Side Added: BUY
+2025-07-09 21:22:24,782 - INFO - Order type Selected: WWW
+2025-07-09 21:22:47,564 - ERROR - Error Occurred: could not convert string to float: 'fff'
+2025-07-09 21:32:52,111 - INFO - Successfully connected to Binance API
+2025-07-09 21:32:52,330 - ERROR - Failed to initialize bot: APIError(code=-2014): API-key format invalid.
+2025-07-09 21:32:52,330 - ERROR - Failed to initialize bot: APIError(code=-2014): API-key format invalid.
+2025-07-09 21:33:37,314 - INFO - Successfully connected to Binance API
+2025-07-09 21:33:37,814 - ERROR - Failed to initialize bot: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-07-09 21:33:37,814 - ERROR - Failed to initialize bot: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-07-09 21:34:50,697 - INFO - Successfully connected to Binance API
+2025-07-09 21:34:51,217 - ERROR - Failed to initialize bot: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-07-09 21:34:51,217 - ERROR - Failed to initialize bot: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-07-09 21:37:15,767 - INFO - Successfully connected to Binance API (testnet=True)
+2025-07-09 21:37:16,293 - ERROR - Failed to initialize bot: APIError(code=-2014): API-key format invalid.
+2025-07-09 21:37:16,293 - ERROR - Failed to initialize bot: APIError(code=-2014): API-key format invalid.
+2025-07-09 21:37:49,895 - INFO - Successfully connected to Binance API (testnet=True)
+2025-07-09 21:37:50,080 - ERROR - Failed to initialize bot: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-07-09 21:37:50,080 - ERROR - Failed to initialize bot: APIError(code=-2015): Invalid API-key, IP, or permissions for action
+2025-07-09 21:42:18,327 - INFO - Connection Successful
+2025-07-09 21:45:06,399 - INFO - Connection Successful
+2025-07-09 21:45:09,936 - ERROR - Invalid symbol: RLF
+2025-07-09 21:45:09,936 - INFO - Symbol Added RLF
+2025-07-09 21:45:47,750 - INFO - Connection Successful
+2025-07-09 21:45:52,523 - ERROR - Invalid symbol: ODC
+2025-07-09 21:45:52,523 - INFO - Symbol Added ODC
