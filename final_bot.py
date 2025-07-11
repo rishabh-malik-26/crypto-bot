@@ -121,8 +121,8 @@ def main():
                                         print(f'Invalid Quantity:{e}')
                                 if order_completed:
                                     break
-                        if order_completed:
-                            break
+                    if order_completed:
+                        break
 
 
                 elif order_type == "LIMIT":
@@ -232,6 +232,11 @@ def main():
                                             )
                                     except BinanceAPIException as e:
                                         print(f"Invalid' Quantity:{e}")
+                                if order_completed:
+                                    break
+                        if order_completed:
+                            break
+
 
                 elif order_type == "TWAP":
 
@@ -362,6 +367,10 @@ def main():
                                             )
                                     except BinanceAPIException as e:
                                         print(f"Invalid quantity:{e}")
+                            if order_completed:
+                                    break
+                        if order_completed:
+                            break
 
                 else:
                     print("Invalid Input")
@@ -468,6 +477,11 @@ def main():
                                             )
                                     except BinanceAPIException as e:
                                         print(f'Invalid Quantity:{e}')
+                                if order_completed:
+                                    break
+                        if order_completed:
+                            break
+
 
                 elif order_type == "LIMIT":
 
@@ -580,6 +594,11 @@ def main():
                                             )
                                     except BinanceAPIException as e:
                                         print(f'Invalid quantity{e}')
+                                if order_completed:
+                                    break
+                            if order_completed:
+                                break
+
 
                 elif order_type == "TWAP":
 
@@ -714,6 +733,10 @@ def main():
                                             )
                                     except BinanceAPIException as e:
                                         print(f"Invalid quantity:{e}")
+                            if order_completed:
+                                    break
+                        if order_completed:
+                            break
 
         else:
             print("Invalid Input")
