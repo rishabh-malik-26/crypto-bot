@@ -1,6 +1,7 @@
 from bot_main import trading_bot
 import logging
 import math
+from binance.exceptions import BinanceAPIException
 logging.basicConfig(
     level=logging.INFO,   
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -13,6 +14,8 @@ def main():
     print("=== Welcome to Binance Futures CLI Bot ===")
     print("Type 'QUIT' or 'EXIT' to exit")
     logging.info("Bot Initialised")
+
+    order_completed = False
 
     while True:
             
@@ -83,13 +86,7 @@ def main():
                                         else:
                                             print(f"Quantity is not in Range. Range is between {min_qty} - {max_qty}")
 
-                                    if order_completed:
-                        
-                                        break
-                        if order_completed:
-                            break
-                        
-                    if order_completed:
+                    if order_completed == True:
                         break
 
                     elif order_type == "LIMIT":

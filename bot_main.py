@@ -5,7 +5,8 @@ from datetime import datetime
 import math
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-
+API_KEY = "d4ea544c086db181db7f66e1b108f0da624b4a9b59c2fdefb610e64775ebdc06"
+SECRET_KEY = "238a456593a6a5b52fcf38ff6b0fc8f5c8fcd7bca4c938c71f63162d0f874f54"
 
 class Bot():
     def __init__(self, api_key, api_secret, testnet = True):
