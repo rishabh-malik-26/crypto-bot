@@ -3,8 +3,10 @@ import logging
 import time
 from datetime import datetime
 import math
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    filename='crypto_bot.log',
+                    filemode="a")
 API_KEY = "API_KEY"
 SECRET_KEY = "API_KEY"
 
