@@ -30,6 +30,8 @@ Supports **Market**, **Limit**, and **TWAP (Time-Weighted Average Price)** order
 git clone https://github.com/your-username/binance-futures-cli-bot.git
 cd binance-futures-cli-bot
 
+## pip install -r requirements.txt
+
 # 🔑 Add your API keys in logic.py 
 # Look for: API_KEY = "your_key" and API_SECRET = "your_secret"
 
