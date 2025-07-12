@@ -1,4 +1,4 @@
-from bot_main import trading_bot
+from logic import trading_bot
 import logging
 import math
 from binance.exceptions import BinanceAPIException
@@ -80,6 +80,16 @@ def main():
                                         logging.info(
                                             f'Mark Price of {symbol}: {mark_price}'
                                         )
+
+                                        notional_value = mark_price * quantity
+                                        logging.info(f"Notional Value:{notional_value}")
+                                        # min_notional = 20.0 
+                                        min_notional = trading_bot.get_min_notional(symbol=symbol)
+                                        logging.info(f'Min Notional Value:{min_notional}')  # Binance futures minimum is $20
+
+                                        if notional_value < min_notional:
+                                            min_qty_for_notional = min_notional / mark_price
+                                            print(f"Order size too small. Minimum notional value is ${min_notional}")
 
                                         required_margin = mark_price * quantity
                                         logging.info(
@@ -168,6 +178,11 @@ def main():
                                         logging.info(
                                             f'Mark Price of {symbol}: {mark_price}'
                                         )
+                                        # notional_value = mark_price * quantity
+                                        # logging.info(f"Notional Value:{notional_value}")
+                                        # # min_notional = 20.0  # Binance futures minimum is $20
+                                        # min_notional = trading_bot.get_min_notional(symbol=symbol) 
+                                        # logging.info(f'Min Notional Value:{min_notional}') 
 
                                         required_margin = mark_price * quantity
                                         logging.info(
@@ -184,42 +199,61 @@ def main():
 
                                             if required_margin < available_margin:
 
-                                                try:
+                                                while True:
 
-                                                    price = float(
-                                                        input("Price: ").strip())
-                                                    logging.info(
-                                                        f"Input Price:{price}")
-                                                    
+                                                    try:
 
-                                                    max_price = trading_bot.get_mark_price(
-                                                        symbol=symbol)
-                                                    logging.info(
-                                                        f"Max Price:{max_price}")
-
-                                                    min_price = trading_bot.get_min_price(
-                                                        symbol=symbol)
-                                                    logging.info(
-                                                        f"Min Price: {min_price}")
-
-                                                    if max_price >= price >= min_price:
-                                                        trading_bot.place_futures_limit_order(
-                                                            symbol=symbol,
-                                                            side=intent,
-                                                            quantity=quantity,
-                                                            price=price)
-                                                        print(
-                                                            f"Order Placed of {symbol}: {quantity} for {order_type}"
-                                                        )
+                                                        price = float(
+                                                            input("Price: ").strip())
                                                         logging.info(
-                                                            f"Order Placed")
-                                                        break
-                                                    else:
-                                                        print(
-                                                            f'Price should be between {min_price}-{max_price}'
-                                                        )
-                                                except Exception as e:
-                                                    print(f"Invalid Price:{e}")
+                                                            f"Input Price:{price}")
+                                                        
+
+                                                        max_price = trading_bot.get_mark_price(
+                                                            symbol=symbol)
+                                                        logging.info(
+                                                            f"Max Price:{max_price}")
+
+                                                        min_price = trading_bot.get_min_price(
+                                                            symbol=symbol)
+                                                        logging.info(
+                                                            f"Min Price: {min_price}")
+                                                        
+                                                        notional_value = price * quantity
+                                                        logging.info(f"Notional Value:{notional_value}")
+                                                        # min_notional = 20.0  # Binance futures minimum is $20
+                                                        min_notional = trading_bot.get_min_notional(symbol=symbol) 
+                                                        logging.info(f'Min Notional Value:{min_notional}') 
+
+                                                        min_required_qty = min_notional / price
+
+                                                        if notional_value < min_notional:
+                                                                print(f"Hint: You need at least {min_required_qty:.4f} quantity at this price to meet min notional.")
+                                                                raise ValueError(f"Order's notional too small: {notional_value} < {min_notional}")
+                                                                                       
+
+                                                        if max_price >= price >= min_price:
+                                                            trading_bot.place_futures_limit_order(
+                                                                symbol=symbol,
+                                                                side=intent,
+                                                                quantity=quantity,
+                                                                price=price)
+                                                            print(
+                                                                f"Order Placed of {symbol}: {quantity} for {order_type}"
+                                                            )
+                                                            logging.info(
+                                                                f"Order Placed")
+                                                            break
+                                                        else:
+                                                            print(
+                                                                f'Price should be between {min_price}-{max_price}'
+                                                            )
+                                                    except Exception as e:
+                                                        print(f"Invalid Price:{e}")
+                                                if order_completed:
+                                                    break
+                                                # except Exception as e:
+                                                #     print(f"Invalid Price:{e}")
 
                                             else:
                                                 print(
@@ -234,8 +268,8 @@ def main():
                                         print(f"Invalid' Quantity:{e}")
                                 if order_completed:
                                     break
-                        if order_completed:
-                            break
+                    if order_completed:
+                        break
 
 
                 elif order_type == "TWAP":
@@ -367,16 +401,16 @@ def main():
                                             )
                                     except BinanceAPIException as e:
                                         print(f"Invalid quantity:{e}")
-                            if order_completed:
-                                    break
-                        if order_completed:
-                            break
+                                    if order_completed:
+                                        break
+                    if order_completed:
+                        break
 
                 else:
                     print("Invalid Input")
 
         elif intent == "SELL":
-
+ 
             while True:
 
                 order_type = input(
@@ -390,6 +424,7 @@ def main():
                 elif order_type == "MARKET":
 
                     while True:
+
 
                         symbol = input(
                             "Enter symbol (e.g., BTCUSDT): ").strip().upper()
@@ -431,7 +466,10 @@ def main():
                                         
 
                                         notional_value = mark_price * quantity
-                                        min_notional = 20.0  # Binance futures minimum is $20
+                                        logging.info(f"Notional Value:{notional_value}")
+                                        # min_notional = 20.0  # Binance futures minimum is $20
+                                        min_notional = trading_bot.get_min_notional(symbol=symbol) 
+                                        logging.info(f'Min Notional Value:{min_notional}') 
 
                                         if notional_value < min_notional:
                                             min_qty_for_notional = min_notional / mark_price
@@ -479,8 +517,8 @@ def main():
                                         print(f'Invalid Quantity:{e}')
                                 if order_completed:
                                     break
-                        if order_completed:
-                            break
+                    if order_completed:
+                        break
 
 
                 elif order_type == "LIMIT":
@@ -528,6 +566,12 @@ def main():
                                             f'Mark Price of {symbol}: {mark_price}'
                                         )
 
+                                        notional_value = mark_price * quantity
+                                        logging.info(f"Notional Value:{notional_value}")
+                                        # min_notional = 20.0  # Binance futures minimum is $20
+                                        min_notional = trading_bot.get_min_notional(symbol=symbol) 
+                                        logging.info(f'Min Notional Value:{min_notional}') 
+
                                         required_margin = mark_price * quantity
                                         logging.info(
                                             f'Required Margin:{required_margin}'
@@ -543,43 +587,63 @@ def main():
 
                                             if required_margin < available_margin:
 
-                                                try:
+                                                while True:
 
-                                                    price = float( input("Price: ").strip())
-                                                   
-                                                    logging.info( f"Input Price:{price}")
-                                                   
+                                                    try:
 
-                                                    max_price = trading_bot.get_max_price(
-                                                    symbol=symbol)
-                                                    logging.info(
-                                                    f"Max Price:{max_price}")
-
-                                                    min_price = trading_bot.get_min_price(symbol=symbol)
+                                                        price = float( input("Price: ").strip())
                                                     
-                                                    logging.info(f"Min Price: {min_price}")
+                                                        logging.info( f"Input Price:{price}")
                                                     
 
-                                                    if not (min_price <= price <=
-                                                            max_price):
+                                                        max_price = trading_bot.get_max_price(
+                                                        symbol=symbol)
+                                                        logging.info(
+                                                        f"Max Price:{max_price}")
+
+                                                        min_price = trading_bot.get_min_price(symbol=symbol)
+                                                        
+                                                        logging.info(f"Min Price: {min_price}")
+                                                        
+                                                        notional_value = price * quantity
+                                                        logging.info(f"Notional Value:{notional_value}")
+                                                        # min_notional = 20.0  # Binance futures minimum is $20
+                                                        min_notional = trading_bot.get_min_notional(symbol=symbol) 
+                                                        logging.info(f'Min Notional Value:{min_notional}')
+
+                                                        min_required_qty = min_notional / price
+
+                                                        if notional_value < min_notional:
+                                                            print(f"Hint: You need at least {min_required_qty:.4f} quantity at this price to meet min notional.")
+                                                            raise ValueError(f"Order's notional too small: {notional_value} < {min_notional}")
+                                                                
+
+                                                        if not (min_price <= price <=
+                                                                max_price):
+                                                            print(
+                                                                f'Price should be between {min_price}-{max_price}'
+                                                            )
+                                                            continue
+
+                                                        # if max_price >= price >= min_price:
+                                                        trading_bot.place_futures_limit_order(
+                                                            symbol=symbol,
+                                                            side=intent,
+                                                            quantity=quantity,
+                                                            price=price)
                                                         print(
-                                                            f'Price should be between {min_price}-{max_price}'
+                                                            f"Order Placed of {symbol}: {quantity} for {order_type}"
                                                         )
-                                                        continue
+                                                        logging.info(f"Order Placed")
+                                                        order_completed = True
+                                                        break
+                                                    except Exception as e:
+                                                        print(f'Invalid Price:{e}')
 
-                                                    # if max_price >= price >= min_price:
-                                                    trading_bot.place_futures_limit_order(
-                                                        symbol=symbol,
-                                                        side=intent,
-                                                        quantity=quantity,
-                                                        price=price)
-                                                    print(
-                                                        f"Order Placed of {symbol}: {quantity} for {order_type}"
-                                                    )
-                                                    logging.info(f"Order Placed")
+                                                if order_completed:
                                                     break
-                                                except Exception as e:
-                                                    print(f"Invalid Price:{e}")
+                                                # except Exception as e:
+                                                #     print(f"Invalid Price:{e}")
                                             # else:
                                             #     print(f'Price should be between {min_price}-{max_price}')
 
@@ -596,8 +660,8 @@ def main():
                                         print(f'Invalid quantity{e}')
                                 if order_completed:
                                     break
-                            if order_completed:
-                                break
+                    if order_completed:
+                        break
 
 
                 elif order_type == "TWAP":
@@ -733,9 +797,9 @@ def main():
                                             )
                                     except BinanceAPIException as e:
                                         print(f"Invalid quantity:{e}")
-                            if order_completed:
-                                    break
-                        if order_completed:
+                                    if order_completed:
+                                        break
+                    if order_completed:
                             break
 
         else:
@@ -744,3 +808,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+

@@ -5,8 +5,9 @@ from datetime import datetime
 import math
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-API_KEY = "d4ea544c086db181db7f66e1b108f0da624b4a9b59c2fdefb610e64775ebdc06"
-SECRET_KEY = "238a456593a6a5b52fcf38ff6b0fc8f5c8fcd7bca4c938c71f63162d0f874f54"
+API_KEY = "API_KEY"
+SECRET_KEY = "API_KEY"
+
 
 class Bot():
     def __init__(self, api_key, api_secret, testnet = True):
@@ -200,16 +201,19 @@ class Bot():
             logging.error(f"Error fetching min price for {symbol}: {e}")
             raise
 
+    def get_max_price(self, symbol: str) -> float:
+        filters = self.get_symbol_filters(symbol)
+        if "PRICE_FILTER" in filters:
+            return float(filters["PRICE_FILTER"]["maxPrice"])
+        raise ValueError(f"PRICE_FILTER not found for {symbol}")
+
+    def get_min_notional(self, symbol: str) -> float:
+        filters = self.get_symbol_filters(symbol)
+        if "MIN_NOTIONAL" in filters:
+            return float(filters["MIN_NOTIONAL"]["notional"])
+        else:
+            raise ValueError(f"MIN_NOTIONAL filter not found for {symbol}")
 
 
 trading_bot = Bot(api_key=API_KEY,api_secret=SECRET_KEY)
-
-
-# data  = trading_bot.get_max_qty("BTCUSDT")
-
-# print(data['filters'])
-# # trading_bot.place_fututres_order(symbol="BTCUSDT",side="BUY",quantity=0.4)
-
-# print(trading_bot.get_symbol_filters(symbol="BTCUSDT"))
-
 
