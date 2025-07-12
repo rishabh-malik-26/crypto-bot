@@ -27,7 +27,7 @@ Supports **Market**, **Limit**, and **TWAP (Time-Weighted Average Price)** order
 
 ### 1. Clone the Repo
 # Clone the repo
-git clone https://github.com/your-username/binance-futures-cli-bot.git
+git clone https://github.com/rishabh-malik-26/crypto-bot.git
 cd binance-futures-cli-bot
 
 ## pip install -r requirements.txt
